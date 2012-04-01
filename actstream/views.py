@@ -45,7 +45,8 @@ def stream(request):
     """
     return render_to_response('activity/actor.html', {
         'ctype': ContentType.objects.get_for_model(User),
-        'actor': request.user, 'action_list': models.user_stream(request.user)
+        'actor': request.user, 'action_list': models.user_stream(request.user),
+        'stream_type' : 'user',
     }, context_instance=RequestContext(request))
 
 
@@ -70,7 +71,8 @@ def user(request, username):
     user = get_object_or_404(User, username=username, is_active=True)
     return render_to_response('activity/actor.html', {
         'ctype': ContentType.objects.get_for_model(User),
-        'actor': user, 'action_list': models.user_stream(user)
+        'actor': user, 'action_list': models.user_stream(user),
+        'stream_type': 'user',
     }, context_instance=RequestContext(request))
 
 
@@ -92,7 +94,7 @@ def actor(request, content_type_id, object_id):
     actor = get_object_or_404(ctype.model_class(), pk=object_id)
     return render_to_response('activity/actor.html', {
         'action_list': models.actor_stream(actor), 'actor': actor,
-        'ctype': ctype
+        'ctype': ctype, 'stream_type' : 'actor'
     }, context_instance=RequestContext(request))
 
 
@@ -105,5 +107,5 @@ def model(request, content_type_id):
     actor = ctype.model_class()
     return render_to_response('activity/actor.html', {
         'action_list': models.model_stream(actor), 'ctype': ctype,
-        'actor': ctype
+        'actor': ctype, 'stream_type' : 'model'
     }, context_instance=RequestContext(request))
