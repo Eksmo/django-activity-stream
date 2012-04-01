@@ -26,7 +26,7 @@ class ActivityBaseTestCase(TestCase):
         for model in self.actstream_models:
             actstream_settings.MODELS[model.lower()] = \
                 get_model(*model.split('.'))
-        setup_generic_relations()
+        #setup_generic_relations()
 
     def tearDown(self):
         actstream_settings.MODELS = self.old_MODELS
