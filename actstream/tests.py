@@ -15,8 +15,14 @@ from actstream.actions import follow, unfollow
 from actstream.exceptions import ModelNotActionable
 from actstream.signals import action
 from actstream import settings as actstream_settings
+from django.test.utils import override_settings
 
-
+@override_settings(
+    LANGUAGES=(
+        ('en', 'English'),
+        ),
+    LANGUAGE_CODE='en',
+)
 class ActivityBaseTestCase(TestCase):
     actstream_models = ()
 
@@ -26,7 +32,8 @@ class ActivityBaseTestCase(TestCase):
         for model in self.actstream_models:
             actstream_settings.MODELS[model.lower()] = \
                 get_model(*model.split('.'))
-        #setup_generic_relations()
+        if not hasattr(User, 'actor_actions'):
+            setup_generic_relations()
 
     def tearDown(self):
         actstream_settings.MODELS = self.old_MODELS
