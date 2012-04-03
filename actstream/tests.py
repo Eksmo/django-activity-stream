@@ -15,19 +15,16 @@ from actstream.actions import follow, unfollow
 from actstream.exceptions import ModelNotActionable
 from actstream.signals import action
 from actstream import settings as actstream_settings
-from django.test.utils import override_settings
+from django.utils.translation import get_language, activate
 
-@override_settings(
-    LANGUAGES=(
-        ('en', 'English'),
-        ),
-    LANGUAGE_CODE='en',
-)
+
 class ActivityBaseTestCase(TestCase):
     actstream_models = ()
 
     def setUp(self):
         self.old_MODELS = actstream_settings.MODELS
+        self.old_language = get_language()
+        activate('en')
         actstream_settings.MODELS = {}
         for model in self.actstream_models:
             actstream_settings.MODELS[model.lower()] = \
@@ -36,6 +33,7 @@ class ActivityBaseTestCase(TestCase):
             setup_generic_relations()
 
     def tearDown(self):
+        activate(self.old_language)
         actstream_settings.MODELS = self.old_MODELS
 
 
