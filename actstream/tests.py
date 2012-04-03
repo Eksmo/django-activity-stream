@@ -29,8 +29,7 @@ class ActivityBaseTestCase(TestCase):
         for model in self.actstream_models:
             actstream_settings.MODELS[model.lower()] = \
                 get_model(*model.split('.'))
-        if not hasattr(User, 'actor_actions'):
-            setup_generic_relations()
+        setup_generic_relations()
 
     def tearDown(self):
         activate(self.old_language)
