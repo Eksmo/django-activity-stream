@@ -140,6 +140,13 @@ class Action(models.Model):
     def get_absolute_url(self):
         return ('actstream.views.detail', [self.pk])
 
+class HiddenAction(models.Model):
+    """
+    Actions, which are hidden by user
+    """
+    user = models.ForeignKey(User, related_name='+')
+    action = models.ForeignKey(Action, related_name='hidden_by_user')
+
 
 # convenient accessors
 actor_stream = Action.objects.actor
