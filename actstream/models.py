@@ -164,6 +164,7 @@ def setup_generic_relations():
         if not model:
             continue
         for field in ('actor', 'target', 'action_object'):
+            delattr(model, '%s_actions' % field)
             generic.GenericRelation(Action,
                 content_type_field='%s_content_type' % field,
                 object_id_field='%s_object_id' % field,
