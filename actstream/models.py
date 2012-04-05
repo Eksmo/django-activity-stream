@@ -164,14 +164,13 @@ def setup_generic_relations():
         if not model:
             continue
         for field in ('actor', 'target', 'action_object'):
-            if hasattr(model, '%s_actions' % field):
-                delattr(model, '%s_actions' % field)
-            generic.GenericRelation(Action,
-                content_type_field='%s_content_type' % field,
-                object_id_field='%s_object_id' % field,
-                related_name='actions_with_%s_%s_as_%s' % (
-                    model._meta.app_label, model._meta.module_name, field),
-            ).contribute_to_class(model, '%s_actions' % field)
+            if not hasattr(model, '%s_actions' % field):
+                generic.GenericRelation(Action,
+                    content_type_field='%s_content_type' % field,
+                    object_id_field='%s_object_id' % field,
+                    related_name='actions_with_%s_%s_as_%s' % (
+                        model._meta.app_label, model._meta.module_name, field),
+                ).contribute_to_class(model, '%s_actions' % field)
 
             # @@@ I'm not entirely sure why this works
             setattr(Action, 'actions_with_%s_%s_as_%s' % (
