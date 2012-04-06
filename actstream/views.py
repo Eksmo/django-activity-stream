@@ -109,3 +109,12 @@ def model(request, content_type_id):
         'action_list': models.model_stream(actor), 'ctype': ctype,
         'actor': ctype, 'stream_type' : 'model'
     }, context_instance=RequestContext(request))
+
+@login_required
+def hide(request, action_id):
+    """
+    Hides action from user's feed
+    """
+    action = get_object_or_404(models.Action, pk=action_id)
+    models.HiddenAction.objects.get_or_create(user=request.user, action=action)
+    return respond(request, 204)   # NO CONTENT
