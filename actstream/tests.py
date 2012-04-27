@@ -135,6 +135,7 @@ class ActivityBaseTestCase(NoSignalTestCase):
     def tearDown(self):
         activate(self.old_language)
         actstream_settings.MODELS = self.old_MODELS
+        super(ActivityBaseTestCase, self).tearDown()
 
 
 class ActivityTestCase(ActivityBaseTestCase):
