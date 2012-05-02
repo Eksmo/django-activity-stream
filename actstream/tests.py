@@ -1,4 +1,5 @@
 from random import choice
+from django.core.urlresolvers import reverse
 
 from django.db import connection
 from django.db.models import get_model
@@ -62,6 +63,7 @@ class NoSignalTestCase(TestCase):
                 kept_receivers.append(receiver)
         return kept_receivers
 
+    #noinspection PyMethodOverriding
     def setUp(self, sender_receivers_to_keep=None, sender_receivers_to_discard=None):
         """
         Turns off signals from other apps
@@ -267,6 +269,11 @@ class ActivityTestCase(ActivityBaseTestCase):
         self.assertTrue(isinstance(f2, Follow), "Returns a Follow object")
         self.assertEquals(f1, f2, "Should have received the same Follow "
             "object that I first submitted")
+
+    def test_cannot_follow_myself(self):
+        self.client.login(username=self.user1.username, password='admin')
+        self.assertEqual(self.client.get(reverse('actstream_follow', args=[ContentType.objects.get_for_model(self.user1).pk, self.user1.pk])).status_code, 404)
+
 
     def test_zzzz_no_orphaned_actions(self):
         actions = self.user1.actor_actions.count()

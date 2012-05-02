@@ -30,6 +30,9 @@ def follow_unfollow(request, content_type_id, object_id, do_follow=True):
     ctype = get_object_or_404(ContentType, pk=content_type_id)
     actor = get_object_or_404(ctype.model_class(), pk=object_id)
 
+    if request.user == actor:
+        return respond(request, 404)
+
     if do_follow:
         actions.follow(request.user, actor)
         return respond(request, 201)   # CREATED
