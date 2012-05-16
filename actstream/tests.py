@@ -1,5 +1,6 @@
 from random import choice
 from django.core.urlresolvers import reverse
+import datetime
 
 from django.db import connection
 from django.db.models import get_model
@@ -128,6 +129,8 @@ class ActivityBaseTestCase(NoSignalTestCase):
         self.old_language = get_language()
         activate('en')
         actstream_settings.MODELS = {}
+        self.old_language = get_language()
+        activate('en')
         for model in self.actstream_models:
             actstream_settings.MODELS[model.lower()] = \
                 get_model(*model.split('.'))
@@ -490,3 +493,7 @@ class GFKManagerTestCase(TestCase):
                 actions().fetch_generic_relations('target')]
         self.assertEqual(action_actor_targets,
             action_actor_targets_fetch_generic_target)
+
+class TimesinceTestCase(TestCase):
+    def test_timesince(self):
+        print Action(timestamp=datetime.datetime.now()).timesince()

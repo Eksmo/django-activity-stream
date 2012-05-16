@@ -8,6 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.views.decorators.csrf import csrf_exempt
 
 from actstream import actions, models
+from actstream.models import Action, HiddenAction
 
 
 def respond(request, code):
