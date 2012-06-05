@@ -93,6 +93,7 @@ class ActionManager(GFKManager):
                 action_object_content_type=content_type_id,
                 action_object_object_id__in=object_ids,
             )
+        q = q | (Q(actor_object_id__isnull=True) & Q(target_object_id=object.id))
 
         qs = qs.filter(q, **kwargs).exclude(hidden_by_user__user=object)
         return qs

@@ -82,10 +82,15 @@ def action_handler(verb, **kwargs):
 
     kwargs.pop('signal', None)
     actor = kwargs.pop('sender')
-    check_actionable_model(actor)
+    if actor is None:
+        ctype, oid = None, None
+    else:
+        check_actionable_model(actor)
+        ctype = ContentType.objects.get_for_model(actor),
+        oid = actor.pk,
     newaction = Action(
-        actor_content_type=ContentType.objects.get_for_model(actor),
-        actor_object_id=actor.pk,
+        actor_content_type=ctype,
+        actor_object_id=oid,
         verb=unicode(verb),
         public=bool(kwargs.pop('public', True)),
         description=kwargs.pop('description', None),
