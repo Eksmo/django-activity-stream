@@ -72,9 +72,6 @@ class ActionManager(GFKManager):
         follow_gfks = Follow.objects.filter(user=object).values_list(
             'content_type_id', 'object_id', 'actor_only')
 
-        if not follow_gfks:
-            return qs.none()
-
         for content_type_id, object_id, actor_only in follow_gfks.iterator():
             actors_by_content_type[content_type_id].append(object_id)
             if not actor_only:
