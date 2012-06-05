@@ -21,3 +21,5 @@ MANAGER_MODULE = getattr(settings, 'ACTSTREAM_MANAGER',
     'actstream.managers.ActionManager')
 a, j = MANAGER_MODULE.split('.'), lambda l: '.'.join(l)
 MANAGER_MODULE = getattr(__import__(j(a[:-1]), {}, {}, [a[-1]]), a[-1])
+
+SYSTEM_NAME = getattr(settings, 'ACTSTREAM_SYSTEM_NAME', 'Our Site')
