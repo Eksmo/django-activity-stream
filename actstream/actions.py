@@ -86,8 +86,8 @@ def action_handler(verb, **kwargs):
         ctype, oid = None, None
     else:
         check_actionable_model(actor)
-        ctype = ContentType.objects.get_for_model(actor),
-        oid = actor.pk,
+        ctype = ContentType.objects.get_for_model(actor)
+        oid = actor.pk
     newaction = Action(
         actor_content_type=ctype,
         actor_object_id=oid,
