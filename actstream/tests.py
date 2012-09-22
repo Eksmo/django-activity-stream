@@ -491,7 +491,3 @@ class GFKManagerTestCase(TestCase):
                 actions().fetch_generic_relations('target')]
         self.assertEqual(action_actor_targets,
             action_actor_targets_fetch_generic_target)
-
-class TimesinceTestCase(TestCase):
-    def test_timesince(self):
-        print Action(timestamp=datetime.datetime.now()).timesince()
