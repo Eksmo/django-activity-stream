@@ -129,8 +129,6 @@ class ActivityBaseTestCase(NoSignalTestCase):
         self.old_language = get_language()
         activate('en')
         actstream_settings.MODELS = {}
-        self.old_language = get_language()
-        activate('en')
         for model in self.actstream_models:
             actstream_settings.MODELS[model.lower()] = \
                 get_model(*model.split('.'))
